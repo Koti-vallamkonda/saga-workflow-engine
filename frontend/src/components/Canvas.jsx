@@ -3,6 +3,7 @@ import { ReactFlow, Background, Controls, MiniMap, useReactFlow } from '@xyflow/
 import '@xyflow/react/dist/style.css';
 import useFlowStore from '../store/useFlowStore';
 import { TriggerNode, ActionNode, ConditionNode, DelayNode, EndNode } from '../nodes/CustomNodes';
+import { wouldCreateCycle } from '../utils/dagValidator';
 const nodeTypes = {
  trigger: TriggerNode,
  action: ActionNode,
@@ -41,6 +42,11 @@ export default function Canvas() {
  onNodesChange={onNodesChange}
  onEdgesChange={onEdgesChange}
  onConnect={onConnect}
+ isValidConnection={(c) => {
+ const { nodes, edges } = useFlowStore.getState();
+ return !wouldCreateCycle(nodes, edges, c);
+}}
+
  onDrop={onDrop}
  onDragOver={onDragOver}
  onNodeClick={(_, node) => selectNode(node.id)}
