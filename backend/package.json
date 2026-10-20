@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --runInBand --forceExit"
+    "seed": "node scripts/seed.js",
+    "test": "jest --runInBand --forceExit",
+    "mock-api": "node scripts/mockApi.js",
+  "saga-demo": "node scripts/runLocalSaga.js"
   },
   "keywords": [],
   "author": "",
