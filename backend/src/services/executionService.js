@@ -1,6 +1,6 @@
 // Starts a workflow run: creates the Execution record, then runs it in the background.
 const Execution = require('../models/Execution');
-const { validateGraph, buildExecutionGraph } = require('../utils/dagValidator');
+const { validateGraph, buildExecutionGraph } = require('../../../frontend/src/utils/dagValidator');
 const { runExecution } = require('./executionEngine');
 const { compensate } = require('./sagaCompensator');
 const { callApi } = require('./httpClient');
