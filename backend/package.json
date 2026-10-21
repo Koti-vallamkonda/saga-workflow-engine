@@ -9,7 +9,7 @@
     "seed": "node scripts/seed.js",
     "test": "jest --runInBand --forceExit",
     "mock-api": "node scripts/mockApi.js",
-  "saga-demo": "node scripts/runLocalSaga.js"
+    "saga-demo": "node scripts/runLocalSaga.js"
   },
   "keywords": [],
   "author": "",
