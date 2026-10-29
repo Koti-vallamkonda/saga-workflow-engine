@@ -44,4 +44,11 @@ In the future, we can introduce separate databases for premium tenants if strong
 - Isolation depends on code. If a developer forgets the `tenantId` filter, data can leak.
 - One very busy tenant can slow down others (the "noisy neighbour" problem).
 - Per-tenant backup or restore is harder.
+## Execution engine (Week 2)
+
+The engine (backend/src/services/executionEngine.js) does not know about MongoDB or the network. It receives save, callApi and compensate as parameters, which keeps it easy to test.
+
+A run is stored as an Execution record that contains a copy of the workflow graph, so editing a workflow never changes a run that already happened.
+
+See docs/week2-notes.md.
 
