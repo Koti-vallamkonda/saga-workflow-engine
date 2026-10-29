@@ -30,8 +30,8 @@ function Badge({ status }) {
 export default function ExecutionPanel() {
  const { tenant, apiKey, workflowId, execution, setExecution } = useFlowStore();
  const [inputText, setInputText] = useState('{\n "orderId": "A-1001"\n}');
- const [eventType, setEventType] = useState('order.created'
-     const [eventText, setEventText] = useState('{\n "orderId": "E-1"\n}');
+ const [eventType, setEventType] = useState('order.created');
+ const [eventText, setEventText] = useState('{\n "orderId": "E-1"\n}');
  const [runs, setRuns] = useState([]);
  const [message, setMessage] = useState('');
  const auth = { tenant, apiKey };
@@ -102,8 +102,7 @@ export default function ExecutionPanel() {
  };
  const field = { width: '100%', boxSizing: 'border-box', padding: 6, fontFamily: 'monospace', fontSize: 12 };
  return (
- <div 
- style={{
+ <div style={{
  padding: 12,
  borderTop: '1px solid #ddd',
  display: 'flex',
@@ -146,7 +145,7 @@ export default function ExecutionPanel() {
  </ol>
  </div>
  )}
-<button onClick={refreshRuns} style={{ padding: 6, cursor: 'pointer' }}>
+ <button onClick={refreshRuns} style={{ padding: 6, cursor: 'pointer' }}>
  Recent runs
  </button>
  <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: 12 }}>
