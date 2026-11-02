@@ -12,6 +12,12 @@ export default function ConfigPanel() {
  Label
  <input value={d.label || ''} onChange={set('label')} />
  </label>
+ {node.type === 'trigger' && (
+ <label>
+ Event type (to start from an event)
+ <input value={d.eventType || ''} onChange={set('eventType')} placeholder="order.created" />
+ </label>
+ )}
  {node.type === 'action' && (
  <>
  <label>
@@ -23,6 +29,22 @@ export default function ConfigPanel() {
  <select value={d.method || 'GET'} onChange={set('method')}>
  <option>GET</option>
  <option>POST</option>
+ </select>
+ </label>
+ <label>
+ Undo URL (compensation, optional)
+ <input
+ value={d.compensationUrl || ''}
+ onChange={set('compensationUrl')}
+ placeholder="https://api.example.com/undo"
+ />
+ </label>
+ <label>
+ Undo method
+ <select value={d.compensationMethod || 'POST'} onChange={set('compensationMethod')}>
+ <option>POST</option>
+ <option>PUT</option>
+ <option>DELETE</option>
  </select>
  </label>
  </>

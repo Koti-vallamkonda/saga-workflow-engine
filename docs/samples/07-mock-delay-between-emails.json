@@ -1,0 +1,94 @@
+{
+ "name": "Mock: delay between two emails",
+ "nodes": [
+ {
+ "id": "trigger-1",
+ "type": "trigger",
+ "position": {
+ "x": 250,
+ "y": 0
+ },
+ "data": {
+ "label": "Start"
+ }
+ },
+ {
+ "id": "action-2",
+ "type": "action",
+ "position": {
+ "x": 250,
+ "y": 120
+ },
+ "data": {
+ "label": "First email",
+ "url": "http://localhost:5100/notify/email",
+ "method": "POST"
+ }
+ },
+ {"id": "delay-3",
+ "type": "delay",
+ "position": {
+ "x": 250,
+ "y": 240
+ },
+ "data": {
+ "label": "Wait 2 seconds",
+ "seconds": "2"
+ }
+ },
+ {
+ "id": "action-4",
+ "type": "action",
+ "position": {
+ "x": 250,
+ "y": 360
+ },
+ "data": {
+ "label": "Second email",
+ "url": "http://localhost:5100/notify/email",
+ "method": "POST"
+ }
+ },
+ {
+ "id": "end-5",
+ "type": "end",
+ "position": {
+ "x": 250,
+ "y": 480
+ },
+ "data": {
+ "label": "Done"
+ }
+ }
+ ],
+ "edges": [
+ {
+ "id": "e1",
+ "source": "trigger-1",
+ "target": "action-2",
+ "sourceHandle": null,
+ "targetHandle": null
+ },
+ {
+ "id": "e2",
+ "source": "action-2",
+ "target": "delay-3",
+ "sourceHandle": null,
+ "targetHandle": null
+ },
+ {
+ "id": "e3",
+ "source": "delay-3",
+ "target": "action-4",
+ "sourceHandle": null,
+ "targetHandle": null
+ },
+ {
+ "id": "e4",
+ "source": "action-4",
+ "target": "end-5",
+ "sourceHandle": null,
+ "targetHandle": null
+ }
+ ]
+}

@@ -1,0 +1,93 @@
+{
+ "name": "Mock: branch on input (vip or normal)",
+ "nodes": [
+ {
+ "id": "trigger-1",
+ "type": "trigger",
+ "position": {
+ "x": 250,
+ "y": 0
+ },
+ "data": {
+ "label": "Start",
+ "eventType": "customer.checked"
+ }
+ },
+ {
+ "id": "action-2",
+ "type": "action",
+ "position": {
+ "x": 250,
+ "y": 120
+ },
+ "data": {
+ "label": "Check service",
+ "url": "http://localhost:5100/status/200",
+ "method": "GET"
+ }
+ },
+ {
+ "id": "condition-3",
+ "type": "condition",
+ "position": {
+ "x": 250,
+ "y": 260
+ },
+ "data": {
+ "label": "Is VIP?",
+ "expression": "input.vip === true"
+ }
+ },
+ {
+ "id": "end-4",
+ "type": "end",
+ "position": {
+ "x": 100,
+ "y": 420},
+ "data": {
+ "label": "VIP path"
+ }
+ },
+ {
+ "id": "end-5",
+ "type": "end",
+ "position": {
+ "x": 400,
+ "y": 420
+ },
+ "data": {
+ "label": "Normal path"
+ }
+ }
+ ],
+ "edges": [
+ {
+ "id": "e1",
+ "source": "trigger-1",
+ "target": "action-2",
+ "sourceHandle": null,
+ "targetHandle": null
+ },
+ {
+ "id": "e2",
+ "source": "action-2",
+ "target": "condition-3",
+ "sourceHandle": null,
+ "targetHandle": null
+ },
+ {
+ "id": "e3",
+ "source": "condition-3",
+ "target": "end-4",
+ "sourceHandle": "true",
+ "targetHandle": null
+ },
+ {
+ "id": "e4",
+ "source": "condition-3",
+ "target": "end-5",
+ "sourceHandle": "false",
+ "targetHandle": null
+ }
+ ]
+}

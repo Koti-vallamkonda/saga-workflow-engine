@@ -7,8 +7,19 @@ const colors = {
  delay: '#7c3aed',
  end: '#dc2626',
 };
+// how a node looks while it shows the result of a run
+const runLook = {
+ running: { border: '#2563eb', background: '#dbeafe' },
+ completed: { border: '#16a34a', background: '#dcfce7' },
+ failed: { border: '#dc2626', background: '#fee2e2' },
+ compensating: { border: '#d97706', background: '#fef3c7' },
+ compensated: { border: '#d97706', background: '#fef3c7' },
+ compensation_failed: { border: '#7f1d1d', background: '#fecaca' },
+};
 function Box({ id, type, data, children }) {
  const hasError = useFlowStore((s) => s.errorNodeIds.includes(id));
+ const runStatus = useFlowStore((s) => s.nodeStatuses[id]);
+ const look = runLook[runStatus];
  return (
  <div
  style={{
@@ -16,13 +27,14 @@ function Box({ id, type, data, children }) {
  borderRadius: 8,
  minWidth: 140,
  textAlign: 'center',
- background: '#fff',
  color: '#111',
- border: `2px solid ${hasError ? '#ef4444' : colors[type]}`,
+ background: look ? look.background : '#fff',
+ border: `2px solid ${hasError ? '#ef4444' : look ? look.border : colors[type]}`,
  boxShadow: hasError ? '0 0 0 3px #fecaca' : 'none',
  }}
  >
  <strong>{data.label || type}</strong>
+ {runStatus && <div style={{ fontSize: 10, marginTop: 2 }}>{runStatus.replace(/_/g, ' ')}</div>}
  {children}
  </div>
  );
