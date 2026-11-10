@@ -1,6 +1,7 @@
 const express = require('express');
 const Workflow = require('../models/Workflow');
 const Execution = require('../models/Execution');
+const mongoose = require('mongoose');
 const { startExecution } = require('../services/executionService');
 const router = express.Router();
 // start a run of a workflow
@@ -9,6 +10,9 @@ router.post('/', async (req, res, next) => {
  const { workflowId, input } = req.body;
  if (!workflowId) {
  return res.status(400).json({ message: 'workflowId is required' });
+ }
+ if (!mongoose.isValidObjectId(workflowId)) {
+ return res.status(400).json({ message: 'workflowId must be a valid ID' });
  }
  if (input !== undefined && (typeof input !== 'object' || input === null || Array.isArray(input))) {
  return res.status(400).json({ message: 'input must be a JSON object' });
