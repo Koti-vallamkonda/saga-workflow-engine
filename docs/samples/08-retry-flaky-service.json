@@ -1,0 +1,78 @@
+{
+ "name": "Mock: flaky service with retries",
+ "nodes": [
+ {
+ "id": "trigger-1",
+ "type": "trigger",
+ "position": {
+ "x": 250,
+ "y": 0
+ },
+ "data": {
+ "label": "Start"
+ }
+ },
+ {
+ "id": "action-2",
+ "type": "action",
+ "position": {
+ "x": 250,
+ "y": 120
+ },
+ "data": {
+ "label": "Call flaky service",
+ "url": "http://localhost:5100/flaky/ok",
+ "method": "POST",
+ "retryAttempts": "3",
+ "retryBackoffMs": "200"
+ }
+ },
+ {
+ "id": "action-3",
+ "type": "action",
+ "position": {
+ "x": 250,
+ "y": 240
+ },
+ "data": {
+ "label": "Send email",
+ "url": "http://localhost:5100/notify/email",
+ "method": "POST"
+ }
+ },
+ {
+ "id": "end-4",
+ "type": "end",
+ "position": {
+ "x": 250,
+ "y": 360
+ },
+ "data": {
+ "label": "Done"
+ }
+ }
+ ],
+ "edges": [
+ {
+ "id": "e1",
+ "source": "trigger-1",
+ "target": "action-2",
+ "sourceHandle": null,
+ "targetHandle": null
+ },
+ {
+ "id": "e2",
+ "source": "action-2",
+ "target": "action-3",
+ "sourceHandle": null,
+ "targetHandle": null
+ },
+ {
+ "id": "e3",
+ "source": "action-3",
+ "target": "end-4",
+ "sourceHandle": null,
+ "targetHandle": null
+ }
+ ]
+}
