@@ -10,6 +10,7 @@
 
 const { transition } = require('./executionStates');
 const { evaluateExpression } = require('./expressionEvaluator');
+const { callWithPolicy, readRetryPolicy } = require('./retryPolicy');
 
 const defaults = {
   maxSteps: Number(process.env.MAX_STEPS) || 100,
@@ -41,6 +42,7 @@ function newStep(node, now) {
     finishedAt: null,
     output: null,
     error: null,
+    attempts: null,
     compensation: null,
   };
   // an Action with a compensation URL can be undone later
@@ -68,22 +70,29 @@ async function executeNode(node, ctx, execution, d) {
         method === 'GET'
           ? undefined
           : { executionId: String(execution._id), nodeId: node.id, input: ctx.input, previous: ctx.body };
-      const res = await d.callApi({
-        url: config.url,
-        method,
-        body,
-        headers: { 'x-execution-id': String(execution._id) },
-        timeoutMs: d.stepTimeoutMs,
-      });
-      ctx.status = res.status;
-      ctx.body = res.body;
-      const output = { status: res.status, body: truncate(res.body) };
-      if (res.status < 200 || res.status >= 300) {
-        const err = new Error(`HTTP ${res.status} from ${config.url}`);
-        err.output = output;
-        throw err;
-      }
-      return { output };
+      // transient failures (network errors, 429, 502, 503, 504...) are tried again,
+ // if the node has a retry policy (see retryPolicy.js)
+ const { res, attempts } = await callWithPolicy({
+ callApi: d.callApi,
+ sleep: d.sleep,
+ policy: readRetryPolicy(config),request: {
+ url: config.url,
+ method,
+ body,
+ headers: { 'x-execution-id': String(execution._id) },
+ timeoutMs: d.stepTimeoutMs,
+ },
+ });
+ ctx.status = res.status;
+ ctx.body = res.body;
+ const output = { status: res.status, body: truncate(res.body), attempts };
+ if (res.status < 200 || res.status >= 300) {
+ const err = new Error(`HTTP ${res.status} from ${config.url}`);
+ err.output = output;
+ err.attempts = attempts;
+ throw err;
+ }
+ return { output, attempts };
     }
 
     case 'condition': {
@@ -160,13 +169,17 @@ async function runExecution(execution, deps = {}) {
         step.status = 'failed';
         step.error = err.message;
         step.output = err.output || null;
-        step.finishedAt = d.now();
-        throw err;
+ if (err.attempts) step.attempts = err.attempts;
+ step.finishedAt = d.now();
+ throw err;
+
       }
 
       step.status = 'completed';
-      step.output = result.output;
-      step.finishedAt = d.now();
+ step.output = result.output;
+ if (result.attempts) step.attempts = result.attempts;
+ step.finishedAt = d.now();
+
       await d.save(execution);
 
       current = pickNext(graph, current, result);

@@ -25,6 +25,10 @@ app.use('/api/executions', tenantMiddleware, rateLimiter, apiKeyAuth, executionR
 app.use('/api/executions', tenantMiddleware, rateLimiter, apiKeyAuth, executionRoutes);
 app.use('/api/events', tenantMiddleware, rateLimiter, apiKeyAuth, eventRoutes);
 
+const deadLetterRoutes = require('./routes/deadLetterRoutes');
+app.use('/api/executions', tenantMiddleware, rateLimiter, apiKeyAuth, executionRoutes);
+app.use('/api/dead-letters', tenantMiddleware, rateLimiter, apiKeyAuth, deadLetterRoutes);
+
 
 app.use(errorHandler);
 

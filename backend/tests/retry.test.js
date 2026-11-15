@@ -1,4 +1,4 @@
-const { withRetry } = require('../services/retry');
+const { withRetry } = require('../src/services/retry');
 describe('withRetry', () => {
  test('returns the result when the first try works', async () => {
  const sleeps = [];

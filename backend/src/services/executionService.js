@@ -4,6 +4,7 @@ const { validateGraph, buildExecutionGraph } = require('../utils/dagValidator');
 const { runExecution } = require('./executionEngine');
 const { compensate } = require('./sagaCompensator');
 const { callApi } = require('./httpClient');
+const { defaultService: deadLetters } = require('./deadLetterService');
 // the steps array is a plain array, so Mongoose must be told that it changed
 async function saveExecution(execution) {
  execution.markModified('steps');
@@ -28,7 +29,10 @@ async function startExecution({ tenantId, workflow, input = {}, trigger = { type
  });
  // run in the background so the caller gets an answer right away
  setImmediate(() => {
- runExecution(execution, { save: saveExecution, callApi, compensate }).catch(async (err) => {
+ runExecution(execution, { save: saveExecution, callApi, compensate })
+ // a run that ended badly goes into the dead-letter queue
+ .then((finished) => deadLetters().recordIfFailed(finished))
+ .catch(async (err) => {
  console.error(`Execution ${execution._id} crashed:`, err.message);
  try {
  // last resort: never leave a run stuck as pending or running
@@ -36,11 +40,15 @@ async function startExecution({ tenantId, workflow, input = {}, trigger = { type
  { _id: execution._id, status: { $in: ['pending', 'running'] } },
  { status: 'failed', error: `Engine error: ${err.message}`, finishedAt: new Date() }
  );
+ execution.status = 'failed';
+ execution.error = `Engine error: ${err.message}`;
+ await deadLetters().recordIfFailed(execution);
  } catch (updateErr) {
  console.error('Could not mark the execution as failed:', updateErr.message);
  }
  });
  });
+
  return execution;
 }
 module.exports = { startExecution };

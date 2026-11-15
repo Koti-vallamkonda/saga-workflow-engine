@@ -14,7 +14,7 @@
 // POST /admin/fail-release/<n> make the next n calls of /inventory/release fail with 503
 const http = require('http');
 const PORT = Number(process.env.MOCK_API_PORT) || 5100;
-const state = { failPayment: false, failReleaseLeft: 0, log: [] };
+const state = { failPayment: false, failReleaseLeft: 0, failFlakyLeft: 0, log: [] };
 let counter = 0;
 function send(res, status, body) {
  res.writeHead(status, { 'Content-Type': 'application/json' });
@@ -47,11 +47,13 @@ const server = http.createServer((req, res) => {
  state.failPayment = false;
  return send(res, 200, { failPayment: false });
  }
- const failRelease = path.match(/^\/admin\/fail-release\/(\d+)$/);
- if (req.method === 'POST' && failRelease) {
- state.failReleaseLeft = Number(failRelease[1]);
- return send(res, 200, { failReleaseLeft: state.failReleaseLeft });
+const failFlaky = path.match(/^\/admin\/fail-flaky\/(\d+)$/);
+ if (req.method === 'POST' && failFlaky) {
+ state.failFlakyLeft = Number(failFlaky[1]);
+ return send(res, 200, { failFlakyLeft: state.failFlakyLeft });
  }
+ const failRelease = path.match(/^\/admin\/fail-release\/(\d+)$/);
+
  // ----- business endpoints -----
  const statusRoute = path.match(/^\/status\/(\d{3})$/);
  if (req.method === 'GET' && statusRoute) {
@@ -73,6 +75,12 @@ const server = http.createServer((req, res) => {
  return send(res, 200, { chargeId: `chg-${counter}` });
  case 'POST /payment/refund':
  return send(res, 200, { refunded: true });
+case 'POST /flaky/ok':
+ if (state.failFlakyLeft > 0) {
+ state.failFlakyLeft -= 1;
+ return send(res, 503, { error: 'Service is busy, try again' });
+ }
+ return send(res, 200, { ok: true });
  case 'POST /notify/email':
  return send(res, 200, { sent: true });
  default:
