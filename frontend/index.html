@@ -1,13 +1,360 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700&family=Inter:wght@400;500;600&display=swap"><title>Orstrate | Saga Workflow Engine</title>
+<style>
+:root{--bg:#eef0f4;--card:#fff;--tx:#161a24;--mu:#667085;--bd:#dde1ea;--ac:#1d4ed8;--ok:#15803d;--er:#b91c1c;--wa:#b45309;--cv:#f8f9fc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1017;--card:#161b26;--tx:#e8ecf4;--mu:#98a2b3;--bd:#262d3d;--ac:#6c9bff;--ok:#4ade80;--er:#f87171;--wa:#fbbf24;--cv:#111520}}
+:root[data-theme="dark"]{--bg:#0d1017;--card:#161b26;--tx:#e8ecf4;--mu:#98a2b3;--bd:#262d3d;--ac:#6c9bff;--ok:#4ade80;--er:#f87171;--wa:#fbbf24;--cv:#111520}
+:root[data-theme="ocean"]{--bg:#06202b;--card:#0b2f3f;--tx:#e0f4f7;--mu:#7fb4c2;--bd:#14485c;--ac:#22d3ee;--ok:#34d399;--er:#fb7185;--wa:#fbbf24;--cv:#082633}
+:root[data-theme="violet"]{--bg:#17102b;--card:#21173d;--tx:#efe9ff;--mu:#a79bd1;--bd:#372a63;--ac:#a78bfa;--ok:#4ade80;--er:#fb7185;--wa:#fbbf24;--cv:#1b1333}
+:root:not([data-theme="light"]) button.pri,:root:not([data-theme="light"]) button.on{color:#06101f}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:radial-gradient(900px 500px at 8% -10%,color-mix(in srgb,var(--ac) 22%,transparent),transparent),radial-gradient(800px 500px at 100% 0,color-mix(in srgb,var(--ok) 15%,transparent),transparent),var(--bg);background-attachment:fixed;color:var(--tx);font:14px/1.5 Inter,system-ui,Segoe UI,sans-serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 22px;background:color-mix(in srgb,var(--card) 78%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd)}
+header h1{font:700 19px Sora,Inter,sans-serif;margin:0 auto 0 0;letter-spacing:-.3px;background:linear-gradient(90deg,var(--ac),var(--ok));-webkit-background-clip:text;background-clip:text;color:transparent}
+nav{display:flex;gap:4px;flex-wrap:wrap}nav button{border-radius:99px;border-color:transparent;background:transparent;padding:6px 14px}nav button:hover{background:color-mix(in srgb,var(--ac) 14%,transparent)}nav button.on{box-shadow:0 6px 18px -6px var(--ac)}
+button,select,input,textarea{font:inherit;color:var(--tx)}
+button{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:6px 11px;cursor:pointer}
+button:hover{border-color:var(--ac)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ac)}
+button.on,button.pri{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.dng{color:var(--er)}
+select,input,textarea{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:5px 8px;width:100%}
+main{padding:16px 18px;max-width:1400px;margin:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.kpi,.box{background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(8px);border:1px solid var(--bd);border-radius:16px;padding:14px 16px;box-shadow:0 10px 28px -20px #000}
+.kpi b{display:block;font:700 30px Sora,Inter,sans-serif;letter-spacing:-.5px}.kpi b:not([class]){background:linear-gradient(90deg,var(--tx),var(--ac));-webkit-background-clip:text;background-clip:text;color:transparent}.kpi span,.mu{color:var(--mu);font-size:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+h2{font:600 14px/1.3 Sora,Inter,sans-serif;margin:0 0 10px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--bd);vertical-align:top}th{color:var(--mu);font-weight:500;font-size:12px}
+.tag{padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.completed,.done,.resolved,.replayed{color:var(--ok)}.failed,.open{color:var(--er)}.compensated,.retry{color:var(--wa)}.running{color:var(--ac)}
+.bar{display:flex;align-items:center;gap:8px;margin:7px 0}.bar i{display:block;height:14px;border-radius:3px;min-width:2px;transition:width .4s}.bar span{width:90px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.tools select{width:auto;min-width:160px}
+.designer{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:12px}@media(max-width:900px){.designer{grid-template-columns:1fr}}
+#cv{position:relative;height:430px;overflow:auto;background:var(--cv);border:1px solid var(--bd);border-radius:8px;background-image:radial-gradient(var(--bd) 1px,transparent 1px);background-size:18px 18px}
+#plane{position:relative;width:1000px;height:420px}#edges{position:absolute;inset:0;width:100%;height:100%}
+.edge{fill:none;stroke:var(--mu);stroke-width:2;cursor:pointer}.edge.true{stroke:var(--ok)}.edge.false{stroke:var(--er)}.edge:hover{stroke-width:4}
+.node{position:absolute;width:170px;height:60px;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 16%,var(--card)),var(--card));border:2px solid var(--bd);box-shadow:inset 4px 0 0 var(--c),0 8px 18px -12px #000;border-radius:12px;padding:6px 8px;cursor:grab;user-select:none;touch-action:none}
+.node b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.node small{color:var(--mu);font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node.sel{border-color:var(--ac)}.node.s-running{border-color:var(--ac);box-shadow:0 0 0 3px #1d4ed844}.node.s-done{border-color:var(--ok)}.node.s-failed,.node.bad{border-color:var(--er)}.node.s-compensated,.node.s-retry{border-color:var(--wa)}
+.p{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--card);border:2px solid var(--mu);cursor:crosshair}
+.p.out{right:-8px;top:23px}.p.out.t{top:11px;border-color:var(--ok)}.p.out.f{top:35px;border-color:var(--er)}.p.on{background:var(--ac)}
+.fld{margin-bottom:8px}.fld label{display:block;font-size:12px;color:var(--mu);margin-bottom:2px}
+textarea{font:12px/1.4 ui-monospace,Consolas,monospace;min-height:110px}
+#trace{max-height:220px;overflow:auto;font:12px/1.5 ui-monospace,Consolas,monospace;margin-top:10px}
+#trace div{padding:2px 0;border-bottom:1px dashed var(--bd)}
+.msg{padding:8px 10px;border-radius:6px;margin:8px 0;border:1px solid var(--bd)}.msg.bad{border-color:var(--er);color:var(--er)}.msg.good{border-color:var(--ok);color:var(--ok)}
+button{position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s,border-color .2s}
+button::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,#ffffff55 50%,transparent 70%);transform:translateX(-120%);transition:transform .5s;pointer-events:none}
+button:hover::after{transform:translateX(120%)}button:hover{transform:translateY(-1px);box-shadow:0 5px 14px -6px var(--ac)}button:active{transform:scale(.95)}button:disabled{opacity:.5;pointer-events:none}
+.kpi,.box{position:relative;transition:transform .25s,box-shadow .25s,border-color .25s}
+.kpi::before,.box::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--ac) 22%,transparent),transparent 70%)}
+.kpi:hover::before,.box:hover::before{opacity:1}.kpi:hover,.grid2 .box:hover{transform:translateY(-4px);box-shadow:0 14px 30px -14px var(--ac);border-color:var(--ac)}
+tr:hover td{background:color-mix(in srgb,var(--ac) 12%,transparent)}td,th{transition:background .15s}
+.node{transition:transform .2s,box-shadow .2s,border-color .2s}.node:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 12px 26px -8px var(--c);z-index:5}.p{transition:transform .15s,background .15s}.p:hover{transform:scale(1.6);background:var(--ac)}
+.edge{transition:stroke-width .15s,filter .15s}.edge:hover{filter:drop-shadow(0 0 5px var(--ac))}
+.apr{display:grid;gap:6px;min-width:250px}
+.chip{padding:3px 10px;border-radius:99px;background:color-mix(in srgb,var(--ac) 16%,transparent);font-size:12px}
+#login{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:radial-gradient(circle at 15% 20%,color-mix(in srgb,var(--ac) 38%,transparent),transparent 55%),radial-gradient(circle at 85% 85%,color-mix(in srgb,var(--ok) 25%,transparent),transparent 50%),var(--bg)}#login[hidden]{display:none}
+.lc{width:min(390px,92vw);padding:26px}.lc:hover{transform:none}.lc button{margin-top:4px}
+.lt{font-size:23px;margin:0 0 4px;background:linear-gradient(90deg,var(--ac),var(--ok),var(--ac));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 4s linear infinite}@keyframes sh{to{background-position:-200% 0}}
+#toasts{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:grid;gap:8px;z-index:60}.toast{background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--ok);padding:9px 14px;border-radius:8px;box-shadow:0 10px 26px -10px #000a;animation:tin .3s}.toast.bad{border-left-color:var(--er)}@keyframes tin{from{transform:translateX(30px);opacity:0}}
+.ch rect{transition:opacity .15s,transform .2s;transform-box:fill-box;transform-origin:bottom}.ch rect:hover{transform:scaleY(1.06);opacity:.8}.seg{transition:stroke-width .2s}.seg:hover{stroke-width:25}
+.bar i{transform-origin:left}.bar:hover i{filter:brightness(1.3)}.bar{transition:transform .2s}.bar:hover{transform:translateX(4px)}
+.heat{display:grid;grid-template-columns:repeat(14,1fr);gap:5px}.hc{aspect-ratio:1;border-radius:5px;background:color-mix(in srgb,var(--ac) calc(8% + var(--o)*92%),var(--bd));transition:transform .15s}.hc:hover{transform:scale(1.4);outline:2px solid var(--ac);z-index:2}
+.ic{position:absolute;left:12px;top:8px;font-size:15px;color:var(--c)}
+.node input{background:transparent;border:0;border-bottom:1px dashed transparent;border-radius:0;padding:0 2px;margin:0 0 0 24px;width:calc(100% - 24px);height:20px;user-select:text;cursor:text}
+.node input:hover,.node input:focus{border-bottom-color:var(--ac);background:color-mix(in srgb,var(--ac) 9%,transparent)}.node input.nm{font-weight:600;font-size:13px}.node input.ds{font-size:11px;color:var(--mu);height:18px;margin-top:2px}
+.edge{stroke-dasharray:7 6;animation:flow 1.2s linear infinite}@keyframes flow{to{stroke-dashoffset:-26}}
+.node.s-running{animation:pulse 1.2s infinite}@keyframes pulse{50%{box-shadow:0 0 0 8px #1d4ed824}}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:24px 26px;margin-bottom:14px;border-radius:18px;background:linear-gradient(120deg,color-mix(in srgb,var(--ac) 38%,var(--card)),color-mix(in srgb,var(--ok) 22%,var(--card)));border:1px solid var(--bd)}.hero h2{font:700 24px Sora,Inter,sans-serif;margin:0 0 2px}.hero p{margin:0;color:var(--mu)}
+#cv{border-radius:16px}.lc{border-radius:20px;box-shadow:0 30px 70px -30px var(--ac)}
+body.app{display:grid;grid-template-columns:236px minmax(0,1fr);grid-template-rows:auto 1fr;min-height:100vh}body.app header{grid-column:1/-1}body.app #nav{grid-row:2;grid-column:1;border-right:1px solid var(--bd);background:color-mix(in srgb,var(--card) 60%,transparent);align-self:stretch}body.app main{grid-column:2;grid-row:2;width:100%}
+body:not(.app) header,body:not(.app) #nav,body:not(.app) main{display:none}
+#nav{flex-direction:column;flex-wrap:nowrap;padding:16px 12px;gap:2px}#nav button{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border-radius:10px;padding:10px 12px;color:var(--mu);border-color:transparent}#nav button.on{background:color-mix(in srgb,var(--ac) 18%,transparent);color:var(--tx);box-shadow:none}#nav button i{font-style:normal;width:18px;text-align:center}
+@media(max-width:820px){body.app{grid-template-columns:1fr}body.app #nav{grid-column:1;flex-direction:row;overflow-x:auto;border-right:0;padding:8px}body.app main{grid-column:1;grid-row:3}#nav button{width:auto;white-space:nowrap}}
+header h1{display:flex;align-items:center;gap:10px;background:none;-webkit-text-fill-color:initial;color:var(--tx);font:700 19px/1.1 Sora,Inter,sans-serif}header h1 small{display:block;font:400 11px Inter,sans-serif;color:var(--mu)}.chip#who{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--ac);padding:0;font-weight:600}
+.ov{font:700 20px Sora,Inter,sans-serif;margin:0 0 14px}.kpi span{color:var(--mu);font-size:12px}.kr{display:flex;justify-content:space-between;align-items:center}.gi{font-style:normal;width:38px;height:38px;border:1px solid;border-radius:10px;display:grid;place-items:center;font-size:16px}
+.dg{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:12px}@media(max-width:980px){.dg{grid-template-columns:1fr}}.rowb{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.rowb h2{margin:0}
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:26px 0 10px}.stp{color:var(--tx);width:104px;padding:12px 6px;text-align:center;border:1px solid var(--bd);border-radius:12px;background:var(--cv);transition:transform .2s,border-color .2s}.stp:hover{transform:translateY(-4px);border-color:var(--ac)}.stp i{display:block;font-style:normal;font-size:20px;color:var(--ac)}.stp b{display:block;font-size:12px}.stp small{color:var(--mu);font-size:11px}.stp.done{border-color:var(--ok)}.stp.failed{border-color:var(--er);box-shadow:0 0 16px -6px var(--er)}.stp.compensated{border:1px dashed var(--wa)}
+.arr{color:var(--ok)}.comp{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;border:1px dashed var(--wa);border-radius:12px;flex-wrap:wrap}.rec{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd)}.rec .tag{margin-left:auto}.dot{width:8px;height:8px;border-radius:50%;background:currentColor}code{font-family:ui-monospace,Consolas,monospace}
+#land{min-height:100vh}.wrap{max-width:1240px;margin:auto;padding:0 max(20px,4vw)}.rv{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+.ln{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px max(20px,4vw);backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--bd)}.ln .br{display:flex;align-items:center;gap:10px;font:700 19px Sora,sans-serif}.ln .lk{display:flex;gap:2px;margin:0 auto;flex-wrap:wrap}.ln .lk button{border:0;background:transparent;padding:8px 13px;color:var(--tx)}
+.hr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:44px;align-items:center;padding:70px 0 44px}@media(max-width:980px){.hr{grid-template-columns:1fr}}
+.pills{display:inline-block;padding:8px 16px;border-radius:99px;background:color-mix(in srgb,var(--ac) 14%,transparent);border:1px solid color-mix(in srgb,var(--ac) 32%,transparent);color:var(--ac);font-size:13px}.hr h1{font:700 clamp(34px,5vw,58px)/1.08 Sora,Inter,sans-serif;letter-spacing:-1.5px;margin:22px 0 18px}.grad{background:linear-gradient(90deg,var(--ac),#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent}.lead{font-size:18px;color:var(--mu);max-width:560px}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin:28px 0}.cta button{padding:14px 24px;font-size:16px;border-radius:10px}.mf3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.mf3 span{display:block;color:var(--mu);font-size:13px}@media(max-width:600px){.mf3{grid-template-columns:1fr}}
+.mock{display:grid;grid-template-columns:140px minmax(0,1fr);border:1px solid var(--bd);border-radius:18px;background:color-mix(in srgb,var(--card) 92%,transparent);box-shadow:0 40px 90px -40px var(--ac);overflow:hidden;font-size:12px}@media(max-width:560px){.mock{grid-template-columns:1fr}.ms{display:none}}.ms{padding:12px 8px;border-right:1px solid var(--bd)}.ms div{padding:7px 10px;border-radius:8px;color:var(--mu)}.ms .a{background:color-mix(in srgb,var(--ac) 20%,transparent);color:var(--tx)}.mm{padding:14px;display:grid;gap:10px}
+.mk{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mk div{border:1px solid var(--bd);border-radius:10px;padding:8px}.mk b{display:block;font:700 18px Sora,sans-serif}.mk span{color:var(--mu);font-size:10px}.mw{border:1px solid var(--bd);border-radius:12px;padding:12px}.mfl{display:flex;gap:6px;align-items:center;margin:12px 0;flex-wrap:wrap}.mst{flex:1;min-width:58px;padding:8px 4px;border:1px solid var(--bd);border-radius:10px;text-align:center;font-size:10px;animation:lit 7s infinite;animation-delay:calc(var(--i)*.9s)}@keyframes lit{0%,22%,100%{border-color:var(--bd)}6%,16%{border-color:var(--ok);box-shadow:0 0 14px -4px var(--ok)}}
+.tech{display:flex;gap:clamp(18px,4vw,56px);justify-content:center;flex-wrap:wrap;font:600 22px Sora,sans-serif;color:var(--mu);padding:14px 0 30px;border-bottom:1px solid var(--bd)}.tech span{transition:color .2s,transform .2s}.tech span:hover{color:var(--ac);transform:translateY(-3px)}
+.sec{padding:64px 0}.sec h2.st{font:700 32px Sora,sans-serif;text-align:center;margin:0 0 8px}.sub{text-align:center;color:var(--mu);margin:0 auto 34px;max-width:620px}.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}.fc{padding:20px}.fi{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:color-mix(in srgb,var(--ac) 16%,transparent);margin-bottom:12px}.fc p{color:var(--mu);margin:6px 0 0}.num{font:700 28px Sora,sans-serif;color:var(--ac)}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.pg .hot{border-color:var(--ac);box-shadow:0 20px 60px -30px var(--ac)}.pg .pr{font:700 34px Sora,sans-serif;margin:8px 0}.pg ul{padding-left:18px;color:var(--mu)}pre.cd{background:var(--cv);border:1px solid var(--bd);border-radius:14px;padding:16px;overflow:auto;font:12.5px/1.6 ui-monospace,Consolas,monospace;margin:0}.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.chips span{padding:8px 14px;border:1px solid var(--bd);border-radius:99px;transition:border-color .2s,transform .2s}.chips span:hover{border-color:var(--ac);transform:translateY(-2px)}footer.lf{border-top:1px solid var(--bd);padding:30px 0;color:var(--mu);text-align:center}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head><body>
+<header><h1><svg width='30' height='30' viewBox='0 0 32 32' fill='none' stroke='var(--ac)' stroke-width='2'><path d='M16 2l12 7v14l-12 7L4 23V9z'/><circle cx='12' cy='19' r='2'/><circle cx='20' cy='13' r='2'/><path d='M13.5 17.5l5-3.5'/></svg><span>Orstrate<small>Saga Workflow Engine</small></span></h1>
+<span class='chip'>Tenant: <b id='tn'></b></span><span class='chip'>API Key <b id='kv'></b> <button id='cpk' style='padding:1px 8px'>Copy</button></span>
+<label class="mu">Theme <select id="thm" style="width:auto"><option>dark</option><option>light</option><option>ocean</option><option>violet</option></select></label><select id="ten" hidden></select><span class="chip" id="who"></span><button id="out">Sign out</button></header>
+<nav id="nav"></nav><section id="land" hidden></section><div id="login" hidden></div><div id="toasts"></div><main id="view"></main>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms)),rid=p=>p+Math.random().toString(36).slice(2,7);
+/* ---------- state (per tenant) ---------- */
+let S=null;try{S=JSON.parse(localStorage.getItem('saga2')||'null')}catch(e){}
+S=S||{tenant:'company-a',t:{}};
+const T=()=>S.t[S.tenant]||(S.t[S.tenant]={wfs:[],runs:[],dead:[]});
+const save=()=>{try{localStorage.setItem('saga2',JSON.stringify(S))}catch(e){}};
+let view='dash',cur=null,sel=null,link=null,selRun=null,note='',nodeState={},trace=[];
+/* ---------- node types & samples ---------- */
+const TYPES={trigger:{c:'#0284c7',d:{kind:'manual',event:'my.event',everySec:60}},action:{c:'#4338ca',d:{service:'http',url:'',method:'GET',headers:'{}',payload:'',compensateUrl:'',undo:true,retries:2,backoff:300,failTimes:0}},condition:{c:'#b45309',d:{expr:'body.vip'}},delay:{c:'#7c3aed',d:{seconds:1}},script:{c:'#047857',d:{code:'return {total: 1};',timeoutMs:1000}},ask:{c:'#c2410c',d:{message:'What should we use?',field:'answer'}},notify:{c:'#0f766e',d:{message:'Workflow reached this step: {{input.name}}'}},approval:{c:'#be185d',d:{message:'Approve this step?'}},end:{c:'#475569',d:{}}};
+const N=(id,type,x,y,name,data={})=>({id,type,x,y,name,data:{...TYPES[type].d,...data}});
+const E=(...ids)=>ids.slice(1).map((to,i)=>({from:ids[i],to}));
+const SAMPLES={
+'Order saga (compensation)':()=>({input:'{"failPayment":true}',nodes:[N('t','trigger',20,170,'Order created'),N('a','action',210,170,'Reserve stock',{service:'inventory'}),N('b','action',400,170,'Charge payment',{service:'payment'}),N('c','action',590,170,'Send email',{service:'email',undo:false}),N('e','end',790,170,'Done')],edges:E('t','a','b','c','e')}),
+'Script: price an order':()=>({input:'{"items":[{"price":30,"qty":2},{"price":50,"qty":1}]}',nodes:[N('t','trigger',20,170,'Order priced',{event:'order.priced'}),N('s','script',210,170,'Add up order',{code:"const total = input.items.reduce((s,i)=>s+i.price*i.qty,0);\nconsole.log('total is '+total);\nreturn {total, vip: total>100};"}),N('c','condition',410,170,'Is VIP?'),N('v','action',610,70,'VIP email',{service:'email',undo:false}),N('n','action',610,270,'Normal email',{service:'email',undo:false}),N('e','end',810,170,'Done')],edges:[{from:'t',to:'s'},{from:'s',to:'c'},{from:'c',to:'v',label:'true'},{from:'c',to:'n',label:'false'},{from:'v',to:'e'},{from:'n',to:'e'}]}),
+'Flaky service (retry)':()=>({input:'{}',nodes:[N('t','trigger',20,170,'Start',{event:'job.start'}),N('a','action',230,170,'Call flaky API',{service:'flaky',failTimes:2,retries:3,undo:false}),N('e','end',450,170,'Done')],edges:E('t','a','e')})};
+function addSample(name){const s=SAMPLES[name](),w={id:rid('wf_'),name:name.replace(/ \(.*/,''),input:s.input,nodes:s.nodes,edges:s.edges};T().wfs.push(w);cur=w.id;sel=null;save();return w}
+const wf=()=>T().wfs.find(w=>w.id===cur);
+/* ---------- validator ---------- */
+function validate(w){const er=[],bad=new Set(),add=(m,id)=>{er.push(m);id&&bad.add(id)},rg=(v,a,b)=>+v>=a&&+v<=b;
+ const tr=w.nodes.filter(n=>n.type==='trigger');if(tr.length!==1)add('Exactly one Trigger node is needed');
+ if(!w.nodes.some(n=>n.type==='end'))add('Add at least one End node');
+ w.nodes.forEach(n=>{const d=n.data,out=w.edges.filter(e=>e.from===n.id),inn=w.edges.filter(e=>e.to===n.id),nm=`"${n.name}"`;
+  if(n.type!=='end'&&!out.length)add(`${nm}: connect it to a next node`,n.id);
+  if(n.type!=='trigger'&&!inn.length)add(`${nm}: nothing leads into this node`,n.id);
+  if(n.type==='condition'){if(!out.some(e=>e.label==='true')||!out.some(e=>e.label==='false'))add(`${nm}: needs a true and a false branch`,n.id);if(!String(d.expr).trim())add(`${nm}: write a condition`,n.id)}
+  if(n.type==='trigger'&&d.kind==='schedule'&&!rg(d.everySec,5,86400))add(`${nm}: interval must be 5 to 86400 seconds`,n.id);if(n.type==='trigger'&&d.kind==='event'&&!String(d.event||'').trim())add(`${nm}: enter an event name`,n.id);if((n.type==='notify'||n.type==='approval'||n.type==='ask')&&!String(d.message).trim())add(`${nm}: write a message`,n.id);if(n.type==='action'&&d.service==='http'&&!/^(https?:\/\/|\{\{)/i.test(String(d.url||'').trim()))add(`${nm}: enter a valid URL (http or https)`,n.id);
+  if(n.type==='action'){if(!rg(d.retries,0,5))add(`${nm}: retries must be 0 to 5`,n.id);if(!rg(d.backoff,50,10000))add(`${nm}: wait must be 50 to 10000 ms`,n.id)}
+  if(n.type==='script'){if(!String(d.code).trim())add(`${nm}: write the script code`,n.id);else if(d.code.length>5000)add(`${nm}: script too long (5000 chars max)`,n.id);if(!rg(d.timeoutMs,50,5000))add(`${nm}: time limit must be 50 to 5000 ms`,n.id)}
+  if(n.type==='delay'&&!(+d.seconds>0))add(`${nm}: delay must be above 0`,n.id)});
+ const st={};let cyc=false;const dfs=id=>{st[id]=1;w.edges.filter(e=>e.from===id).forEach(e=>{if(st[e.to]===1)cyc=true;else if(!st[e.to])dfs(e.to)});st[id]=2};
+ tr[0]&&dfs(tr[0].id);if(cyc)add('The workflow has a loop (it must be a DAG)');
+ if(tr[0])w.nodes.forEach(n=>{if(!st[n.id]&&n.type!=='trigger')add(`"${n.name}": cannot be reached from the Trigger`,n.id)});
+ return{errors:er,bad}}
+/* ---------- script sandbox: Web Worker + time limit ---------- */
+const WSRC=`onmessage=e=>{const{code,input,previous}=e.data,logs=[];try{for(const k of['fetch','XMLHttpRequest','WebSocket','importScripts','indexedDB','postMessage_'])try{self[k]=undefined}catch(x){}
+const fn=new Function('input','previous','console','"use strict";'+code);const r=fn(input,previous,{log:(...a)=>logs.push(a.join(' '))});
+const txt=JSON.stringify(r===undefined?null:r);if(txt.length>100000)throw new Error('result too big');postMessage({ok:true,result:JSON.parse(txt),logs})}catch(err){postMessage({ok:false,error:err.message})}}`;
+function runScript(code,input,previous,ms){return new Promise((res,rej)=>{let w;
+ try{w=new Worker(URL.createObjectURL(new Blob([WSRC],{type:'text/javascript'})))}catch(e){return rej(new Error('worker not available here'))}
+ const kill=setTimeout(()=>{w.terminate();rej(new Error(`timed out after ${ms} ms (worker killed)`))},ms);
+ w.onmessage=e=>{clearTimeout(kill);w.terminate();e.data.ok?res(e.data):rej(new Error(e.data.error))};
+ w.onerror=e=>{clearTimeout(kill);w.terminate();rej(new Error(e.message||'script crashed'))};
+ w.postMessage({code,input,previous})})}
+/* ---------- engine ---------- */
+async function callService(d,ctx,attempt){if(d.service==='http')return httpCall(d,ctx);await sleep(250);const i=ctx.input||{};
+ if(d.service==='payment'&&i.failPayment)throw new Error('Payment declined (402)');
+ if(d.service==='inventory'&&i.outOfStock)throw new Error('Out of stock (409)');
+ if(d.service==='flaky'&&attempt<=+d.failTimes)throw new Error('Service unavailable (503)');
+ return{service:d.service,ok:true,ref:rid('')}}
+async function runNode(n,ctx,log){const d=n.data;
+ if(n.type==='trigger')return{msg:d.kind==='schedule'?'scheduled run':d.kind==='event'?'event '+d.event:'manual start'};
+ if(n.type==='notify'){const m=tpl(d.message,ctx);toast(m);return{msg:'notified: '+m}}
+ if(n.type==='approval'){const m=tpl(d.message,ctx);if(!await askApproval(m,n.name))throw new Error('Rejected by approver');return{msg:'approved'}}
+ if(n.type==='ask'){const v=await askInput(tpl(d.message,ctx),n.name),f=String(d.field||'answer').trim()||'answer';ctx.input={...(ctx.input||{}),[f]:v};ctx.body={[f]:v};return{msg:`${f} = ${v}`}}
+ if(n.type==='end')return{msg:'finished'};
+ if(n.type==='delay'){await sleep(d.seconds*1000);return{msg:`waited ${d.seconds}s`}}
+ if(n.type==='condition'){let v;try{v=!!new Function('input','body','return ('+d.expr+')')(ctx.input,ctx.body)}catch(e){throw new Error('Condition error: '+e.message)}return{branch:v,msg:`${d.expr} is ${v}`}}
+ if(n.type==='script'){try{const o=await runScript(d.code,ctx.input,ctx.body,+d.timeoutMs);ctx.body=o.result;return{msg:'result '+JSON.stringify(o.result)+(o.logs.length?' | log: '+o.logs.join('; '):'')}}catch(e){throw new Error('Script failed: '+e.message)}}
+ let tries=0;for(;;){tries++;try{ctx.body=await callService(d,ctx,tries);return{msg:`${d.service} ok after ${tries} attempt(s)`}}
+  catch(e){if(tries>+d.retries)throw new Error(`${e.message} (tried ${tries} time${tries>1?'s':''})`);log(n,'retry',`attempt ${tries} failed: ${e.message}, waiting ${d.backoff*2**(tries-1)} ms`);await sleep(d.backoff*2**(tries-1))}}}
+async function exec(w,input,live){
+ const run={id:rid('run_'),wf:w.id,name:w.name,status:'running',input,steps:[],at:Date.now()};
+ const log=(n,s,m)=>{const st={node:n.id,name:n.name,status:s,msg:m,t:Date.now()-run.at};run.steps.push(st);if(live){nodeState[n.id]=s;trace.push(st);paint()}};
+ RUNNING++;const ctx={input,body:null},done=[];let n=w.nodes.find(x=>x.type==='trigger'),g=0;
+ try{while(n&&g++<60){log(n,'running','started');const r=await runNode(n,ctx,log);log(n,'done',r.msg);
+   if(n.type==='action'&&n.data.undo)done.push(n);if(n.type==='end')break;
+   const outs=w.edges.filter(e=>e.from===n.id),e=n.type==='condition'?outs.find(e=>e.label===String(r.branch)):outs[0];n=e&&w.nodes.find(x=>x.id===e.to)}
+  run.status='completed'}
+ catch(err){log(n,'failed',err.message);run.error=err.message;run.failedNode=n.name;
+  for(const d of done.reverse()){await sleep(200);let m='undo '+d.data.service;if(d.data.service==='http'){if(d.data.compensateUrl){try{await fetch(tpl(d.data.compensateUrl,ctx),{method:'POST'});m='undo call sent to '+tpl(d.data.compensateUrl,ctx)}catch(e){m='undo call failed: '+e.message}}else m='no undo URL set, skipped'}log(d,'compensated',m)}
+  run.status=done.length?'compensated':'failed';
+  T().dead.unshift({id:rid('dl_'),run:run.id,wf:w.id,name:w.name,reason:err.message,node:n.name,input,status:'open',at:Date.now()})}
+ RUNNING--;run.ms=Date.now()-run.at;T().runs.unshift(run);save();toast(`${run.name}: ${run.status}`,run.status==='completed'?'ok':'bad');return run}
+/* ---------- UI ---------- */
+const nav=[['dash','Dashboard'],['des','Workflows'],['runs','Executions'],['events','Events'],['ana','Analytics'],['dead','Failed runs'],['keys','API Keys'],['tenants','Tenants'],['set','Settings'],['logs','Logs']];
+function paintNav(){$('#nav').innerHTML=nav.map(([k,l])=>`<button data-v="${k}" class="${view===k?'on':''}"><i>${NI[k]}</i>${l}${k==='dead'&&T().dead.filter(d=>d.status==='open').length?` (${T().dead.filter(d=>d.status==='open').length})`:''}</button>`).join('');$('#ten').value=S.tenant;$('#ten').disabled=!isAdmin();$('#thm').value=S.theme;$('#who').textContent=me().name.slice(0,2).toUpperCase();$('#who').title=me().name+' · '+me().role;$('#tn').textContent=S.tenant;$('#kv').textContent=(T().keys||[]).length?'•••••••••':'none'}
+function paint(){paintNav();({dash:dash2,ana:analytics,des:designer,runs,dead:deadView,events:eventsV,keys:keysV,tenants:tenantsV,set:settingsV,logs:logsV})[view]();document.querySelectorAll('.kpi b').forEach(countUp)}
+const tag=s=>`<span class="tag ${s}">${s}</span>`;
+function dash(){const r=T().runs,c=s=>r.filter(x=>x.status===s).length,mx=Math.max(1,r.length);
+ $('#view').innerHTML=`<div class="hero"><div><h2>Welcome back, ${esc(me().name)}</h2><p>${T().wfs.length} workflow(s) in ${esc(S.tenant)}. Build your own steps, write your own text.</p></div><button class="pri" data-v="des">Open designer</button></div><div class="kpis"><div class="kpi"><b>${T().wfs.length}</b><span>workflows</span></div><div class="kpi"><b>${r.length}</b><span>runs</span></div><div class="kpi"><b class="completed">${c('completed')}</b><span>completed</span></div><div class="kpi"><b class="compensated">${c('compensated')}</b><span>rolled back</span></div><div class="kpi"><b class="failed">${c('failed')}</b><span>failed</span></div><div class="kpi"><b>${T().dead.filter(d=>d.status==='open').length}</b><span>open dead letters</span></div></div>
+ <div class="grid2"><div class="box"><h2>Runs by status (${esc(S.tenant)})</h2>${['completed','compensated','failed'].map(s=>`<div class="bar"><span>${s}</span><i class="${s}" style="width:${c(s)/mx*100}%;background:currentColor"></i><b>${c(s)}</b></div>`).join('')}<p class="mu">Each tenant has its own workflows, runs and dead letters. Switch tenant at the top right.</p></div>
+ <div class="box"><h2>Recent runs</h2>${r.length?`<table><tr><th>Workflow</th><th>Status</th><th>Time</th></tr>${r.slice(0,6).map(x=>`<tr><td>${esc(x.name)}</td><td>${tag(x.status)}</td><td>${x.ms} ms</td></tr>`).join('')}</table>`:'<p class="mu">No runs yet. Build a workflow in the Designer and press Run.</p>'}</div></div>`}
+function designer(){const w=wf();
+ const opts=T().wfs.map(x=>`<option value="${x.id}" ${x.id===cur?'selected':''}>${esc(x.name)}</option>`).join('');
+ $('#view').innerHTML=`<div class="tools"><select id="wsel">${opts}</select><button id="newwf">New</button>${w?`<input id="wname" value="${esc(w.name)}" style="width:170px" title="Workflow name">`:''}<select id="samp"><option value="">Start from template...</option>${Object.keys(SAMPLES).map(k=>`<option>${k}</option>`).join('')}</select>
+ ${Object.keys(TYPES).map(t=>`<button data-add="${t}">+ ${ICON[t]} ${t}</button>`).join('')}${w&&w.nodes.some(x=>x.type==='trigger'&&x.data.kind==='schedule')?`<button id="act" class="${w.active?'on':''}">Schedule: ${w.active?'on':'off'}</button>`:''}<button id="dup">Duplicate</button><button id="val">Validate</button><button class="pri" id="runb">Run</button><input id="evn" placeholder="event name" style="width:130px"><button id="fire">Fire event</button>${isAdmin()?'<button class="dng" id="delwf">Delete</button>':''}</div>
+ ${w?`<div class="designer"><div><div id="cv"><div id="plane"><svg id="edges"></svg>${w.nodes.map(nodeHtml).join('')}</div></div>
+ <div class="tools" style="margin-top:8px"><label class="mu" style="flex:1">Run input (JSON, or just type text: use it as {{input.text}})<input id="inp" value='${esc(w.input||'{}')}'></label></div>
+ <div id="note">${note}</div><div id="trace" class="box" ${trace.length?'':'hidden'}>${trace.map(t=>`<div><span class="${t.status}">${t.status}</span> ${esc(t.name)}: ${esc(t.msg)}</div>`).join('')}</div></div>
+ <div class="box" id="panel"></div></div>`:'<div class="box"><h2>No workflows yet</h2><p class="mu">Press New to start from a blank canvas, or choose a template.</p></div>'}`;
+ if(w){drawEdges();panel();$('#trace').scrollTop=1e5}}
+function nodeHtml(n){const ports=n.type==='condition'?`<i class="p out t ${link&&link.from===n.id&&link.label==='true'?'on':''}" data-p="true" title="true branch"></i><i class="p out f ${link&&link.from===n.id&&link.label==='false'?'on':''}" data-p="false" title="false branch"></i>`:n.type==='end'?'':`<i class="p out ${link&&link.from===n.id?'on':''}" data-p=""></i>`;
+ const sub=n.type==='action'?n.data.service+(n.data.undo?' + undo':''):n.type==='trigger'?(n.data.kind||'manual')+(n.data.kind==='event'?' '+n.data.event:n.data.kind==='schedule'?' every '+n.data.everySec+'s':''):n.type==='condition'?n.data.expr:n.type==='delay'?n.data.seconds+' s':n.type==='script'?'sandboxed JS':'';
+ return`<div class="node ${n.id===sel?'sel':''} ${nodeState[n.id]?'s-'+nodeState[n.id]:''}" data-id="${n.id}" style="--c:${TYPES[n.type].c};left:${n.x}px;top:${n.y}px"><span class="ic">${ICON[n.type]}</span><input class="nm" data-nn value="${esc(n.name)}" placeholder="Type a name" title="Click and type to rename"><input class="ds" data-ns value="${esc(n.sub||'')}" placeholder="${esc(n.type+' '+sub)}" title="Click and write your own text">${ports}</div>`}
+function drawEdges(){const w=wf();$('#edges').innerHTML=w.edges.map((e,i)=>{const a=w.nodes.find(n=>n.id===e.from),b=w.nodes.find(n=>n.id===e.to);if(!a||!b)return'';
+ const x1=a.x+170,y1=a.y+(a.type==='condition'?(e.label==='true'?18:42):30),x2=b.x,y2=b.y+30,dx=Math.max(40,Math.abs(x2-x1)/2);
+ return`<path class="edge ${e.label||''}" data-e="${i}" d="M${x1} ${y1}C${x1+dx} ${y1},${x2-dx} ${y2},${x2} ${y2}"><title>Click to remove</title></path>`}).join('')}
+function panel(){const w=wf(),n=w.nodes.find(x=>x.id===sel),p=$('#panel');if(!n){p.innerHTML='<h2>Node settings</h2><p class="mu">Click a node to edit it. Drag to move. To connect: click a round port, then click the target node. Click a line to remove it.</p>';return}
+ const f=(k,v)=>{const id=`f_${k}`;if(['code','headers','payload','message'].includes(k))return`<div class="fld"><label>${k==='code'?'code (use return; input and previous are available)':k+' (supports {{input.x}} and {{body.x}})'}</label><textarea data-k="${k}">${esc(v)}</textarea></div>`;
+  if(SEL[k])return`<div class="fld"><label>${k}</label><select data-k="${k}">${SEL[k].map(s=>`<option ${s===v?'selected':''}>${s}</option>`).join('')}</select></div>`;
+  if(typeof v==='boolean')return`<div class="fld"><label><input type="checkbox" data-k="${k}" ${v?'checked':''} style="width:auto"> undo this step if the saga fails</label></div>`;
+  return`<div class="fld"><label>${k}</label><input data-k="${k}" value="${esc(v)}"></div>`};
+ p.innerHTML=`<h2>${n.type} node</h2><div class="fld"><label>name (also editable by double-clicking the node)</label><input data-name value="${esc(n.name)}"></div><div class="fld"><label>description shown on the node</label><input data-sub value="${esc(n.sub||'')}"></div>${Object.entries({...TYPES[n.type].d,...n.data}).filter(([k])=>shown(n,k)).map(([k,v])=>f(k,v)).join('')}<button class="dng" id="deln">Delete node</button>`}
+function runs(){const r=T().runs,sr=r.find(x=>x.id===selRun);
+ $('#view').innerHTML=`<div class="grid2"><div class="box"><h2>All runs</h2>${r.length?`<table><tr><th>Workflow</th><th>Status</th><th>Time</th></tr>${r.map(x=>`<tr data-run="${x.id}" style="cursor:pointer"><td>${esc(x.name)}</td><td>${tag(x.status)}</td><td>${x.ms} ms</td></tr>`).join('')}</table>${isAdmin()?'<p><button class="dng" id="clr">Clear runs</button></p>':''}`:'<p class="mu">No runs yet.</p>'}</div>
+ <div class="box"><h2>Step trace</h2>${sr?`<p class="mu">Input: ${esc(JSON.stringify(sr.input))}</p><table><tr><th>ms</th><th>Step</th><th>Detail</th></tr>${sr.steps.filter(s=>s.status!=='running').map(s=>`<tr><td>${s.t}</td><td>${esc(s.name)}<br>${tag(s.status)}</td><td>${esc(s.msg)}</td></tr>`).join('')}</table>`:'<p class="mu">Click a run to see every step.</p>'}</div></div>`}
+function deadView(){const d=T().dead;
+ $('#view').innerHTML=`<div class="box"><h2>Failed runs (dead letters)</h2>${d.length?`<table><tr><th>Workflow</th><th>Failed at</th><th>Reason</th><th>Status</th><th></th></tr>${d.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.node)}</td><td>${esc(x.reason)}</td><td>${tag(x.status)}</td><td>${x.status==='open'?`<button data-rep="${x.id}">Replay</button> <button data-res="${x.id}">Resolve</button>`:''}</td></tr>`).join('')}</table>`:'<p class="mu">Nothing failed. Run the Order saga sample to see one.</p>'}<p class="mu">Replay starts a new run with the same input. Edit the input in the Designer first if the cause was bad data.</p></div>`}
+/* ---------- events ---------- */
+document.addEventListener('click',async e=>{const t=e.target,q=s=>t.closest(s);
+ if(q('#out')){logout()}
+ else if(q('#act')){const w=wf();w.active=!w.active;save();syncTimers();toast('Schedule '+(w.active?'on: it runs while this tab stays open':'off'));designer()}
+ else if(q('#dup')){const w=wf(),c=JSON.parse(JSON.stringify(w));c.id=rid('wf_');c.name+=' copy';c.active=false;T().wfs.push(c);cur=c.id;sel=null;save();designer()}
+ else if(q('#fire')){const ev=$('#evn').value.trim();let p;try{p=JSON.parse($('#inp').value||'{}')}catch(x){p={text:$('#inp').value}}const ms=T().wfs.filter(w=>w.nodes.some(n=>n.type==='trigger'&&n.data.kind==='event'&&n.data.event===ev));if(!ms.length)return toast('No workflow listens to "'+ev+'"','bad');toast(`Event "${ev}" started ${ms.length} workflow(s)`);ms.forEach(w=>exec(w,p,false).then(()=>paintNav()))}
+ else if(q('[data-v]')){view=q('[data-v]').dataset.v;paint()}
+ else if(q('[data-run]')){selRun=q('[data-run]').dataset.run;runs()}
+ else if(q('#clr')){T().runs=[];save();runs()}
+ else if(q('[data-rep]')){const d=T().dead.find(x=>x.id===q('[data-rep]').dataset.rep),w=T().wfs.find(x=>x.id===d.wf);if(!w)return;d.status='replayed';const r=await exec(w,d.input,false);selRun=r.id;save();deadView()}
+ else if(q('[data-res]')){T().dead.find(x=>x.id===q('[data-res]').dataset.res).status='resolved';save();paint()}
+ else if(q('[data-add]')){const w=wf();if(!w)return;const ty=q('[data-add]').dataset.add,n=N(rid('n'),ty,30+w.nodes.length*14%200,20+w.nodes.length*30%300,ty[0].toUpperCase()+ty.slice(1));w.nodes.push(n);sel=n.id;save();designer()}
+ else if(q('#newwf')){const w={id:rid('wf_'),name:'Workflow '+(T().wfs.length+1),input:'{}',nodes:[N('t','trigger',40,160,'Start')],edges:[]};T().wfs.push(w);cur=w.id;save();designer()}
+ else if(q('#delwf')){T().wfs=T().wfs.filter(x=>x.id!==cur);cur=T().wfs[0]?.id;sel=null;save();designer()}
+ else if(q('#deln')){const w=wf();w.nodes=w.nodes.filter(n=>n.id!==sel);w.edges=w.edges.filter(x=>x.from!==sel&&x.to!==sel);sel=null;save();designer()}
+ else if(q('#val')){const v=validate(wf());note=v.errors.length?`<div class="msg bad"><b>${v.errors.length} problem(s)</b><br>${v.errors.map(esc).join('<br>')}</div>`:'<div class="msg good">Valid: one Trigger, no loops, every node connected.</div>';designer();v.bad.forEach(id=>document.querySelector(`[data-id="${id}"]`)?.classList.add('bad'))}
+ else if(q('#runb')){const w=wf();let inp;try{inp=JSON.parse($('#inp').value||'{}')}catch(x){inp={text:$('#inp').value}}
+  w.input=$('#inp').value;const v=validate(w);if(v.errors.length){note=`<div class="msg bad"><b>Fix before running</b><br>${v.errors.map(esc).join('<br>')}</div>`;return designer()}
+  note='';nodeState={};trace=[];$('#runb').disabled=true;const r=await exec(w,inp,true);note=`<div class="msg ${r.status==='completed'?'good':'bad'}">Run ${r.status} in ${r.ms} ms${r.error?': '+esc(r.error):''}</div>`;selRun=r.id;if(view==='des')designer();paintNav()}
+ else if(t.classList.contains('edge')){const w=wf();w.edges.splice(+t.dataset.e,1);save();drawEdges()}
+});
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.id==='thm')setTheme(t.value);
+ else if(t.id==='af'){af=t.value;analytics()}
+ else if(t.id==='wname'){wf().name=t.value.trim()||'Untitled';save();designer()}
+ else if(t.id==='ten'){S.tenant=t.value;cur=T().wfs[0]?.id;sel=null;selRun=null;note='';trace=[];nodeState={};save();paint()}
+ else if(t.id==='wsel'){cur=t.value;sel=null;note='';trace=[];nodeState={};designer()}
+ else if(t.id==='samp'&&t.value){addSample(t.value);note='';trace=[];nodeState={};designer()}
+ else if(t.closest('#panel')){const n=wf().nodes.find(x=>x.id===sel);if(t.dataset.name!==undefined)n.name=t.value;else if(t.dataset.sub!==undefined)n.sub=t.value;else if(t.dataset.k){const k=t.dataset.k,o=n.data[k]??TYPES[n.type].d[k];n.data[k]=typeof o==='boolean'?t.checked:typeof o==='number'?Number(t.value):t.value}save();syncTimers();designer()}});
+document.addEventListener('pointerdown',e=>{const nd=e.target.closest('.node');if(!nd||!wf())return;if(!link&&e.target.matches('input.nm,input.ds')){sel=nd.dataset.id;panel();return}const w=wf(),n=w.nodes.find(x=>x.id===nd.dataset.id);
+ if(e.target.classList.contains('p')){link={from:n.id,label:e.target.dataset.p||undefined};designer();return}
+ if(link){if(link.from!==n.id&&!w.edges.some(x=>x.from===link.from&&x.to===n.id&&x.label===link.label)){const ex=w.edges.findIndex(x=>x.from===link.from&&x.label===link.label);if(ex>-1&&link.label)w.edges.splice(ex,1);w.edges.push({from:link.from,to:n.id,...(link.label?{label:link.label}:{})});save()}link=null;designer();return}
+ const sx=e.clientX,sy=e.clientY,ox=n.x,oy=n.y;let moved=false;sel=n.id;
+ const mv=ev=>{moved=true;n.x=Math.max(0,Math.round((ox+ev.clientX-sx)/10)*10);n.y=Math.max(0,Math.round((oy+ev.clientY-sy)/10)*10);nd.style.left=n.x+'px';nd.style.top=n.y+'px';drawEdges()};
+ const up=()=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up);save();designer()};
+ addEventListener('pointermove',mv);addEventListener('pointerup',up)});
+/* ---------- auth, themes, toasts, analytics ---------- */
+const hash=async s=>{try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return btoa(s)}};
+const me=()=>S.users?.[S.me]||{name:'Guest',role:'member'},isAdmin=()=>me().role==='admin';
+let af='';
+function toast(m,k='ok'){try{const L=(T().logs=T().logs||[]);L.unshift({m,k,at:Date.now()});L.length=Math.min(L.length,200);save()}catch(e){}const d=document.createElement('div');d.className='toast '+k;d.textContent=m;$('#toasts').append(d);setTimeout(()=>d.remove(),3200)}
+function setTheme(v){S.theme=v;document.documentElement.dataset.theme=v;save();paintNav()}
+function countUp(el){const m=el.textContent.match(/^(\d+\.?\d*)(.*)$/);if(!m)return;const to=+m[1],suf=m[2],t0=performance.now(),f=t=>{const p=Math.min(1,(t-t0)/600);el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+suf;if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
+function showLogin(mode='in',err=''){const su=mode==='up';$('#login').hidden=false;
+ $('#login').innerHTML=`<div class="box lc"><button data-closelogin style='position:absolute;right:12px;top:12px;padding:2px 9px'>✕</button><div style="font-size:36px">🔀</div><h1 class="lt">Orstrate</h1><p class="mu">${su?'Create your account':'Sign in to your workspace'}</p>${su?'<div class="fld"><label>Name</label><input id="lname"></div>':''}<div class="fld"><label>Email</label><input id="lmail" type="email" autocomplete="username"></div><div class="fld"><label>Password</label><input id="lpw" type="password" autocomplete="current-password"></div>${su?'<div class="fld"><label>Workspace name (create or join)</label><input id="lten" placeholder="e.g. acme-labs"></div>':''}${err?`<div class="msg bad">${esc(err)}</div>`:''}<button class="pri" style="width:100%" onclick="${su?'doSignup()':'doLogin()'}">${su?'Create account':'Sign in'}</button> <button style="width:100%" onclick="showLogin('${su?'in':'up'}')">${su?'I already have an account':'Create a new account'}</button><p class="mu">${su?'The first person in a workspace becomes its admin.':'Your account and data are stored in this browser.'}</p></div>`}
+function demoFill(){$('#lmail').value='admin@saga.dev';$('#lpw').value='admin123'}
+async function doLogin(){const m=$('#lmail').value.trim().toLowerCase(),u=S.users[m];if(!u||u.h!==await hash($('#lpw').value))return showLogin('in','Wrong email or password');S.me=m;enter()}
+async function doSignup(){const m=$('#lmail').value.trim().toLowerCase(),p=$('#lpw').value,nm=$('#lname').value.trim(),tn=$('#lten').value.trim().toLowerCase().replace(/[^a-z0-9-]+/g,'-').replace(/^-|-$/g,'');if(!/^\S+@\S+\.\S+$/.test(m))return showLogin('up','Enter a valid email');if(p.length<6)return showLogin('up','Password needs 6+ characters');if(S.users[m])return showLogin('up','That email is already registered');if(!tn)return showLogin('up','Enter a workspace name');S.users[m]={h:await hash(p),name:nm||m.split('@')[0],role:Object.values(S.users).some(u=>u.tenant===tn)?'member':'admin',tenant:tn};S.me=m;enter()}
+function enter(){$('#land').hidden=true;document.body.classList.add('app');$('#login').hidden=true;const u=me();S.tenant=u.tenant;if(!(T().keys||[]).length)newKey('Default');cur=T().wfs[0]?.id;view=T().wfs.length?'dash':'des';syncTimers();sel=null;note='';trace=[];nodeState={};save();paint();toast('Welcome, '+u.name)}
+function logout(){S.me=null;save();$('#view').innerHTML='';showLand()}
+const stats=r=>{const ms=r.map(x=>x.ms).sort((a,b)=>a-b);return{n:r.length,ok:r.filter(x=>x.status==='completed').length,avg:r.length?Math.round(ms.reduce((a,b)=>a+b,0)/r.length):0,p95:ms.length?ms[Math.min(ms.length-1,Math.floor(ms.length*.95))]:0,retries:r.reduce((a,x)=>a+x.steps.filter(s=>s.status==='retry').length,0)}};
+const cnt=(arr,f)=>{const o={};arr.forEach(x=>{const k=f(x);o[k]=(o[k]||0)+1});return Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,5)};
+const barList=(e,c)=>{const m=Math.max(1,...e.map(x=>x[1]));return e.length?e.map(([k,v])=>`<div class="bar"><span style="width:130px">${esc(k)}</span><i style="width:${v/m*55}%;background:${c}"></i><b>${v}</b></div>`).join(''):'<p class="mu">No data yet.</p>'};
+function analytics(){if(af&&!T().wfs.some(w=>w.id===af))af='';
+ const all=T().runs,r=af?all.filter(x=>x.wf===af):all,s=stats(r),pct=s.n?Math.round(s.ok/s.n*100):0,col={completed:'var(--ok)',compensated:'var(--wa)',failed:'var(--er)'};
+ const last=r.slice(0,14).reverse(),mx=Math.max(1,...last.map(x=>x.ms));
+ const bars=last.map((x,i)=>{const h=x.ms/mx*140;return`<rect x="${i*32+6}" y="${150-h}" width="26" height="${h}" rx="4" fill="${col[x.status]}"><title>${esc(x.name)}: ${x.status}, ${x.ms} ms</title></rect>`}).join('');
+ const C=2*Math.PI*52;let off=0;const seg=['completed','compensated','failed'].map(k=>{const v=r.filter(x=>x.status===k).length,l=s.n?v/s.n*C:0,el=`<circle class="seg" r="52" cx="70" cy="70" fill="none" stroke="${col[k]}" stroke-width="18" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${k}: ${v}</title></circle>`;off+=l;return el}).join('');
+ const avgWf=T().wfs.map(w=>[w.name,stats(all.filter(x=>x.wf===w.id)).avg]).filter(x=>x[1]>0);
+ const days=[...Array(28)].map((_,i)=>{const d=new Date(Date.now()-(27-i)*864e5);return{k:d.toLocaleDateString(undefined,{day:'numeric',month:'short'}),c:r.filter(x=>new Date(x.at).toDateString()===d.toDateString()).length}}),dm=Math.max(1,...days.map(d=>d.c));
+ $('#view').innerHTML=`<div class="tools"><select id="af"><option value="">All workflows</option>${T().wfs.map(w=>`<option value="${w.id}" ${w.id===af?'selected':''}>${esc(w.name)}</option>`).join('')}</select></div>
+ <div class="kpis"><div class="kpi"><b>${pct}%</b><span>success rate</span></div><div class="kpi"><b>${s.avg}ms</b><span>average duration</span></div><div class="kpi"><b>${s.p95}ms</b><span>p95 duration</span></div><div class="kpi"><b>${s.retries}</b><span>retries fired</span></div><div class="kpi"><b>${s.n}</b><span>runs analysed</span></div></div>
+ <div class="grid2"><div class="box"><h2>Duration of the last 14 runs</h2>${last.length?`<svg class="ch" viewBox="0 0 458 160" width="100%">${bars}</svg>`:'<p class="mu">No runs yet. Run a workflow to see analytics.</p>'}</div>
+ <div class="box"><h2>Outcome split</h2><div style="display:flex;gap:18px;align-items:center"><svg class="ch" viewBox="0 0 140 140" width="140">${seg}<text x="70" y="77" text-anchor="middle" fill="currentColor" font-size="22" font-weight="700">${pct}%</text></svg><div>${['completed','compensated','failed'].map(k=>`<div><span style="color:${col[k]}">&#9679;</span> ${k}: ${r.filter(x=>x.status===k).length}</div>`).join('')}</div></div></div>
+ <div class="box"><h2>Average duration by workflow (ms)</h2>${barList(avgWf,'var(--ac)')}</div>
+ <div class="box"><h2>Failure hotspots (step that failed)</h2>${barList(cnt(r.filter(x=>x.failedNode),x=>x.failedNode),'var(--er)')}</div>
+ <div class="box"><h2>Retries by step</h2>${barList(cnt(r.flatMap(x=>x.steps.filter(z=>z.status==='retry')),z=>z.name),'var(--wa)')}</div>
+ <div class="box"><h2>Activity, last 28 days</h2><div class="heat">${days.map(d=>`<div class="hc" style="--o:${d.c/dm}" title="${d.k}: ${d.c} run(s)"></div>`).join('')}</div></div></div>`}
+function seedDemo(){const w=T().wfs;if(!w.length)return;const nm=['Reserve stock','Charge payment','Send email','Call flaky API'];
+ for(let i=0;i<40;i++){const f=w[i%w.length],ro=Math.random(),st=ro<.68?'completed':ro<.85?'compensated':'failed',nd=nm[Math.floor(Math.random()*4)],rt=Math.random()<.35?1+Math.floor(Math.random()*2):0,steps=[];for(let k=0;k<rt;k++)steps.push({node:'x',name:nd,status:'retry',msg:'attempt failed',t:100*k});
+  T().runs.push({id:rid('run_'),wf:f.id,name:f.name,status:st,input:{},steps,at:Date.now()-Math.random()*27*864e5,ms:Math.round(400+Math.random()*2200),...(st!=='completed'?{failedNode:nd,error:'simulated failure'}:{})})}
+ T().runs.sort((a,b)=>b.at-a.at);save();toast('Added 40 demo runs');analytics();document.querySelectorAll('.kpi b').forEach(countUp)}
+document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.kpi,.box');if(c){const b=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-b.left+'px');c.style.setProperty('--my',e.clientY-b.top+'px')}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='lpw')document.querySelector('#login .pri').click()});
+/* ---------- real-world features: templating, HTTP, approvals, schedules, inline edit ---------- */
+const SEL={service:['http','inventory','payment','email','flaky'],kind:['manual','schedule','event'],method:['GET','POST','PUT','DELETE']},HTTPK=['url','method','headers','payload','compensateUrl'];
+const shown=(n,k)=>{const d={...TYPES[n.type].d,...n.data};if(n.type==='action'){if(HTTPK.includes(k))return d.service==='http';if(k==='failTimes')return d.service==='flaky'}if(n.type==='trigger'){if(k==='event')return d.kind==='event';if(k==='everySec')return d.kind==='schedule'}return true};
+const path=(o,p)=>p.split('.').reduce((a,k)=>a==null?a:a[k],o);
+const tpl=(s,ctx)=>String(s??'').replace(/\{\{\s*(input|body)\.?([\w.]*)\s*\}\}/g,(_,r,p)=>{const v=p?path(ctx[r],p):ctx[r];return v==null?'':typeof v==='object'?JSON.stringify(v):v});
+async function httpCall(d,ctx){const url=tpl(d.url,ctx);let h={};try{h=JSON.parse(tpl(d.headers||'{}',ctx))}catch(e){throw new Error('Headers are not valid JSON')}
+ const init={method:d.method,headers:h};if(d.method!=='GET'&&d.payload){init.body=tpl(d.payload,ctx);if(!h['Content-Type'])h['Content-Type']='application/json'}
+ let r;try{r=await fetch(url,init)}catch(e){throw new Error('Network error: '+e.message)}
+ const txt=await r.text();if(!r.ok)throw new Error('HTTP '+r.status);try{return JSON.parse(txt)}catch(e){return{text:txt.slice(0,2000)}}}
+const askApproval=(m,name)=>new Promise(res=>{const d=document.createElement('div');d.className='box apr';d.innerHTML=`<b>${esc(name)}</b><p>${esc(m)}</p>`;const mk=(l,v,c)=>{const b=document.createElement('button');b.textContent=l;b.className=c;b.onclick=()=>{d.remove();res(v)};d.append(b)};mk('Approve',true,'pri');mk('Reject',false,'dng');$('#toasts').append(d)});
+const ICON={trigger:'▶',action:'⚡',condition:'◇',delay:'⏱',script:'{}',ask:'✎',notify:'🔔',approval:'✋',end:'■'};
+const askInput=(m,name)=>new Promise(res=>{const d=document.createElement('div');d.className='box apr';d.innerHTML=`<b>${esc(name)}</b><p>${esc(m)}</p><input placeholder="Type your answer">`;const b=document.createElement('button');b.textContent='Submit';b.className='pri';b.onclick=()=>{const v=d.querySelector('input').value;d.remove();res(v)};d.append(b);$('#toasts').append(d);d.querySelector('input').focus();d.querySelector('input').onkeydown=e=>{if(e.key==='Enter')b.click()}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.nn===undefined&&t.dataset.ns===undefined)return;const n=wf().nodes.find(x=>x.id===t.closest('.node').dataset.id);if(t.dataset.nn!==undefined)n.name=t.value;else n.sub=t.value;save();panel()});
+let RUNNING=0;
+const NI={dash:'▣',des:'⌥',runs:'▷',events:'⚡',ana:'📈',dead:'⚠',keys:'🔑',tenants:'👥',set:'⚙',logs:'☰'};
+const LOGO="<svg width='30' height='30' viewBox='0 0 32 32' fill='none' stroke='var(--ac)' stroke-width='2'><path d='M16 2l12 7v14l-12 7L4 23V9z'/><circle cx='12' cy='19' r='2'/><circle cx='20' cy='13' r='2'/><path d='M13.5 17.5l5-3.5'/></svg>";
+const go=id=>document.getElementById(id)&&document.getElementById(id).scrollIntoView({behavior:'smooth'});
+const pl=s=>{try{return JSON.parse(s||'{}')}catch(e){return{text:s}}};
+const copyText=s=>{try{navigator.clipboard.writeText(s).then(()=>toast('Copied'),()=>toast('Copy blocked by the browser','bad'))}catch(e){toast('Copy blocked by the browser','bad')}};
+function newKey(name){const k='orst_'+[...crypto.getRandomValues(new Uint8Array(16))].map(b=>b.toString(16).padStart(2,'0')).join('');(T().keys=T().keys||[]).push({id:rid('k_'),name,key:k,at:Date.now()});save()}
+function fireEvent(ev,p){const ms=T().wfs.filter(w=>w.nodes.some(n=>n.type==='trigger'&&n.data.kind==='event'&&n.data.event===ev));(T().events=T().events||[]).unshift({ev,n:ms.length,at:Date.now()});save();if(!ms.length)return toast('No workflow listens to "'+ev+'"','bad');toast(`Event "${ev}" started ${ms.length} workflow(s)`);ms.forEach(w=>exec(w,p,false).then(()=>paintNav()))}
+function showLand(){document.body.classList.remove('app');$('#login').hidden=true;const L=$('#land');L.hidden=false;
+ const steps=[['🛒','Order Created'],['🛡','Validate Order'],['📦','Reserve Inventory'],['💳','Process Payment'],['✓','Order Confirmed']];
+ L.innerHTML=`<div class='ln'><span class='br'>${LOGO}Orstrate</span><div class='lk'>${[['lf','Features'],['lh','How it Works'],['ld','Docs'],['la','API'],['lp','Pricing'],['lb','About']].map(([i,l])=>`<button data-go='${i}'>${l}</button>`).join('')}</div><button data-cyc title='Change theme'>◐</button><button data-auth='in'>Sign In</button><button class='pri' data-auth='up'>Get Started</button></div>
+<div class='wrap'><div class='hr'><div class='rv'><span class='pills'>Multi-Tenant · Event Driven · Resilient</span><h1>Orchestrate Distributed Workflows with <span class='grad'>Saga Pattern</span></h1><p class='lead'>Orstrate is a multi-tenant saga workflow engine. Build, run and monitor long-running distributed transactions with retries, compensation and full visibility.</p><div class='cta'><button class='pri' data-auth='up'>Get Started Free →</button><button data-go='ld'>📖 View Documentation</button></div><div class='mf3'><div><b>Tenant Isolation</b><span>Every workspace has its own data</span></div><div><b>Event Driven</b><span>Trigger workflows from your own events</span></div><div><b>Reliable &amp; Resilient</b><span>Retries, compensation and dead letters</span></div></div></div>
+<div class='mock rv'><div class='ms'><b style='display:block;padding:6px 10px'>Orstrate</b>${['Dashboard','Workflows','Executions','Events','API Keys','Tenants','Settings','Logs'].map((x,i)=>`<div class='${i?'':'a'}'>${x}</div>`).join('')}</div><div class='mm'><div class='mk'>${[['Total Workflows','24'],['Running','12'],['Completed','1,429'],['Failed','32']].map(([l,v])=>`<div><span>${l}</span><b>${v}</b></div>`).join('')}</div><div class='mw'><div class='rowb'><b>Workflow Execution</b><span class='tag running'>In Progress</span></div><div class='mfl'>${steps.map(([g,n],i)=>`<div class='mst' style='--i:${i}'><div style='font-size:16px'>${g}</div>${n}</div>${i<4?"<span class='arr'>→</span>":''}`).join('')}</div><div class='comp' style='margin:0'>↩ Refund Payment <span class='mu'>Compensation</span></div></div><div class='mw'><b>Recent Executions</b>${[['Order Fulfillment','running','In Progress'],['User Registration','completed','Completed'],['Payment Reconciliation','failed','Failed']].map(([n,c,s])=>`<div class='rec'><span class='dot ${c}'></span>${n}<span class='tag ${c}'>${s}</span></div>`).join('')}</div></div></div></div>
+<div class='rv' style='padding:26px 0 0'><p class='mu' style='text-align:center'>Orchestrate services built on the stack you already use</p><div class='tech'><span>Node.js</span><span>Express</span><span>MongoDB</span><span>Docker</span><span>Redis</span><span>AWS</span></div></div>
+<section id='lf' class='sec'><h2 class='st rv'>Everything you need to orchestrate</h2><p class='sub rv'>Design the flow, let the engine handle the failures.</p><div class='fg'>${[['⬡','Multi-Tenant Architecture','Isolated workflows, data and keys for every workspace.'],['⇄','Saga Orchestration','Coordinate steps with automatic compensation when something fails.'],['◉','Real-time Visibility','Watch every execution step light up as it runs.'],['{ }','Developer Friendly','HTTP actions, templating and sandboxed scripts in every node.']].map(([i,t,d])=>`<div class='box fc rv'><div class='fi'>${i}</div><b>${t}</b><p>${d}</p></div>`).join('')}</div></section>
+<section id='lh' class='sec'><h2 class='st rv'>How it works</h2><p class='sub rv'>From idea to running saga in three steps.</p><div class='fg'>${[['1','Design','Drag nodes onto the canvas and write your own names and text.'],['2','Run','Start manually, on a schedule or from an event. Ask a person or wait for approval.'],['3','Recover','Failed steps retry, earlier steps are undone and failures land in a replay queue.']].map(([n,t,d])=>`<div class='box fc rv'><div class='num'>${n}</div><b>${t}</b><p>${d}</p></div>`).join('')}</div></section>
+<section id='ld' class='sec'><h2 class='st rv'>Docs</h2><p class='sub rv'>An HTTP action reads data from earlier steps with templates.</p><pre class='cd rv'>Trigger   event: order.created
+Action    POST https://api.example.com/orders
+          payload {"item":"{{input.item}}"}
+          undo URL https://api.example.com/orders/cancel
+Condition body.total &gt; 100
+Approval  "Approve this order?"</pre></section>
+<section id='la' class='sec'><h2 class='st rv'>API</h2><p class='sub rv'>The building blocks you can combine.</p><div class='chips rv'>${['Trigger','Action (HTTP)','Condition','Delay','Script (sandboxed)','Ask user','Notify','Approval','End'].map(x=>`<span>${x}</span>`).join('')}</div></section>
+<section id='lp' class='sec'><h2 class='st rv'>Pricing</h2><p class='sub rv'>Placeholder plans, edit them to match your project.</p><div class='pg'>${[['Starter','$0','Free forever',['3 workflows','1 workspace','Community support']],['Team','$29','per month',['Unlimited workflows','Roles and members','API keys'],1],['Enterprise','Custom','contact us',['Dedicated tenants','SLA','Audit logs']]].map(([n,p,s,f,h])=>`<div class='box fc rv ${h?'hot':''}'><b>${n}</b><div class='pr'>${p}</div><span class='mu'>${s}</span><ul>${f.map(x=>`<li>${x}</li>`).join('')}</ul><button class='${h?'pri':''}' data-auth='up' style='width:100%'>Get started</button></div>`).join('')}</div></section></div>
+<footer id='lb' class='lf'>Orstrate is a student-built saga workflow engine. © ${new Date().getFullYear()}</footer>`;
+ const io=new IntersectionObserver(es=>es.forEach(x=>x.isIntersecting&&x.target.classList.add('in')),{threshold:.12});L.querySelectorAll('.rv').forEach(el=>io.observe(el))}
+function dash2(){const r=T().runs,w=T().wfs,c=s=>r.filter(x=>x.status===s).length,last=r[0],nodes=(w.find(x=>x.id===(last&&last.wf))||w[0]||{nodes:[]}).nodes;
+ const fl=last?last.steps.filter(s=>s.status==='done'||s.status==='failed'):nodes.filter(n=>n.type!=='end').map(n=>({node:n.id,name:n.name,status:'idle'})),cp=last?last.steps.filter(s=>s.status==='compensated'):[],ty=id=>(nodes.find(n=>n.id===id)||{}).type;
+ const flow=fl.length?fl.map((s,i)=>`<div class="stp ${s.status}"><i>${ICON[ty(s.node)]||'•'}</i><b>${esc(s.name)}</b><small>Step ${i+1}</small></div>${i<fl.length-1?'<span class="arr">→</span>':''}`).join(''):'<p class="mu">No workflow yet. Create one in Workflows.</p>';
+ const comp=cp.length?`<div class="comp"><span class="mu">Compensation</span>${cp.map(s=>`<div class="stp compensated"><i>↩</i><b>${esc(s.name)}</b></div>`).join('')}</div>`:'';
+ const pts=r.slice(0,24).reverse().map(x=>x.ms),mx=Math.max(1,...pts),poly=pts.map((v,i)=>`${i*(200/Math.max(1,pts.length-1))},${46-v/mx*40}`).join(' '),bad=r.length?c('failed')/r.length:0;
+ $('#view').innerHTML=`<h2 class="ov">Overview</h2><div class="kpis">${[['Total Workflows',w.length,'▣','var(--ac)'],['Running Executions',RUNNING,'▶','var(--ok)'],['Completed',c('completed'),'✓','#38bdf8'],['Failed',c('failed'),'✕','var(--er)']].map(([l,v,g,col])=>`<div class="kpi"><span>${l}</span><div class="kr"><b>${v}</b><em class="gi" style="color:${col}">${g}</em></div></div>`).join('')}</div>
+ <div class="dg"><div class="box"><div class="rowb"><h2>Workflow Execution</h2>${last?tag(last.status):'<span class="tag">idle</span>'}</div><div class="flow">${flow}</div>${comp}<p class="mu" style="margin-top:14px">${last?`Execution ID: ${last.id} · ${new Date(last.at).toLocaleString()} · ${last.ms} ms`:'Run a workflow to see its execution here.'}</p></div>
+ <div style="display:grid;gap:12px;align-content:start"><div class="box"><div class="rowb"><h2>Recent Executions</h2><button data-v="runs" style="padding:2px 8px">View all</button></div>${r.length?r.slice(0,5).map(x=>`<div class="rec"><span class="dot ${x.status}"></span>${esc(x.name)}<span class="tag ${x.status}">${x.status}</span></div>`).join(''):'<p class="mu">Nothing yet.</p>'}</div>
+ <div class="box"><h2>System Health</h2><b>${bad>.2?'Degraded: many failures':'All Systems Operational'}</b><svg viewBox="0 0 200 50" width="100%" height="60"><polyline points="${poly||'0,46 200,46'}" fill="none" stroke="var(--ok)" stroke-width="2"/></svg></div></div></div>`}
+function eventsV(){const evs=T().wfs.flatMap(w=>w.nodes.filter(n=>n.type==='trigger'&&n.data.kind==='event').map(n=>({ev:n.data.event,w:w.name}))),h=T().events||[];
+ $('#view').innerHTML=`<h2 class="ov">Events</h2><div class="grid2"><div class="box"><h2>Event triggers</h2>${evs.length?`<table><tr><th>Event</th><th>Workflow</th><th></th></tr>${evs.map(e=>`<tr><td>${esc(e.ev)}</td><td>${esc(e.w)}</td><td><button data-fev="${esc(e.ev)}">Fire</button></td></tr>`).join('')}</table>`:'<p class="mu">No workflow listens to events yet. In Workflows, set a Trigger kind to event and name it.</p>'}<div class="fld" style="margin-top:12px"><label>Fire a custom event</label><input id="evn2" placeholder="event name"></div><div class="fld"><label>Payload (JSON or plain text)</label><textarea id="evp" style="min-height:70px">{}</textarea></div><button class="pri" id="evgo">Fire event</button></div><div class="box"><h2>Event history</h2>${h.length?`<table><tr><th>When</th><th>Event</th><th>Started</th></tr>${h.slice(0,20).map(x=>`<tr><td>${new Date(x.at).toLocaleTimeString()}</td><td>${esc(x.ev)}</td><td>${x.n}</td></tr>`).join('')}</table>`:'<p class="mu">No events fired yet.</p>'}</div></div>`}
+function keysV(){const k=T().keys||[];$('#view').innerHTML=`<h2 class="ov">API Keys</h2><div class="box"><div class="tools"><input id="kname" placeholder="Key name, e.g. Production" style="max-width:260px"><button class="pri" id="newkey">Generate key</button></div><table><tr><th>Name</th><th>Key</th><th>Created</th><th></th></tr>${k.map(x=>`<tr><td>${esc(x.name)}</td><td><code>${x.key.slice(0,9)}••••••••${x.key.slice(-4)}</code></td><td>${new Date(x.at).toLocaleDateString()}</td><td><button data-ck="${x.id}">Copy</button> ${isAdmin()?`<button class="dng" data-rk="${x.id}">Revoke</button>`:''}</td></tr>`).join('')}</table><p class="mu">Send a key as an x-api-key header in an HTTP action so your services can identify this workspace.</p></div>`}
+function tenantsV(){const us=Object.entries(S.users).filter(([,u])=>u.tenant===S.tenant),kp=(l,v)=>`<div class="kpi"><span>${l}</span><div class="kr"><b>${v}</b></div></div>`;
+ $('#view').innerHTML=`<h2 class="ov">Tenants</h2><div class="kpis">${kp('Workspace',esc(S.tenant))}${kp('Members',us.length)}${kp('Workflows',T().wfs.length)}${kp('Executions',T().runs.length)}</div><div class="box"><h2>Members</h2><table><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr>${us.map(([m,u])=>`<tr><td>${esc(u.name)}</td><td>${esc(m)}</td><td><span class="tag">${u.role}</span></td><td>${isAdmin()&&m!==S.me?`<button data-role="${esc(m)}">${u.role==='admin'?'Make member':'Make admin'}</button> <button class="dng" data-rm="${esc(m)}">Remove</button>`:''}</td></tr>`).join('')}</table></div>`}
+function settingsV(){$('#view').innerHTML=`<h2 class="ov">Settings</h2><div class="grid2"><div class="box"><h2>Profile</h2><div class="fld"><label>Display name</label><input id="pname" value="${esc(me().name)}"></div><button class="pri" id="psave">Save</button><h2 style="margin-top:18px">Theme</h2><div class="tools">${['dark','light','ocean','violet'].map(t=>`<button data-th="${t}" class="${S.theme===t?'on':''}">${t}</button>`).join('')}</div></div><div class="box"><h2>Workspace data</h2><div class="fld"><label>Export workflows (JSON)</label><textarea readonly>${esc(JSON.stringify(T().wfs,null,1))}</textarea></div><div class="fld"><label>Import workflows (paste JSON)</label><textarea id="impj"></textarea></div><button id="impgo">Import</button> ${isAdmin()?'<button class="dng" id="clr2">Clear executions</button>':''}</div></div>`}
+function logsV(){const L=T().logs||[];$('#view').innerHTML=`<h2 class="ov">Logs</h2><div class="box">${L.length?`<table><tr><th>Time</th><th>Level</th><th>Message</th></tr>${L.map(x=>`<tr><td>${new Date(x.at).toLocaleString()}</td><td><span class="tag ${x.k==='ok'?'completed':'failed'}">${x.k==='ok'?'info':'error'}</span></td><td>${esc(x.m)}</td></tr>`).join('')}</table>`:'<p class="mu">No log entries yet.</p>'}</div>`}
+document.addEventListener('click',e=>{const t=e.target,q=s=>t.closest(s);
+ if(q('[data-go]'))go(q('[data-go]').dataset.go);
+ else if(q('[data-auth]'))showLogin(q('[data-auth]').dataset.auth);
+ else if(q('[data-cyc]')){const l=['dark','light','ocean','violet'];setTheme(l[(l.indexOf(S.theme)+1)%4])}
+ else if(q('[data-closelogin]'))$('#login').hidden=true;
+ else if(q('[data-fev]'))fireEvent(q('[data-fev]').dataset.fev,pl($('#evp')&&$('#evp').value));
+ else if(q('#evgo')){fireEvent($('#evn2').value.trim(),pl($('#evp').value));eventsV()}
+ else if(q('#newkey')){newKey($('#kname').value.trim()||'Key');toast('API key generated');keysV();paintNav()}
+ else if(q('[data-ck]'))copyText(T().keys.find(k=>k.id===q('[data-ck]').dataset.ck).key);
+ else if(q('[data-rk]')){T().keys=T().keys.filter(k=>k.id!==q('[data-rk]').dataset.rk);save();keysV();paintNav()}
+ else if(q('#cpk'))copyText(((T().keys||[])[0]||{}).key||'');
+ else if(q('[data-role]')){const u=S.users[q('[data-role]').dataset.role];u.role=u.role==='admin'?'member':'admin';save();tenantsV()}
+ else if(q('[data-rm]')){delete S.users[q('[data-rm]').dataset.rm];save();tenantsV()}
+ else if(q('#psave')){S.users[S.me].name=$('#pname').value.trim()||me().name;save();paintNav();toast('Profile saved')}
+ else if(q('[data-th]')){setTheme(q('[data-th]').dataset.th);settingsV()}
+ else if(q('#impgo')){try{const a=JSON.parse($('#impj').value);(Array.isArray(a)?a:[a]).forEach(w=>{w.id=rid('wf_');T().wfs.push(w)});save();toast('Workflows imported');settingsV()}catch(x){toast('Not valid workflow JSON','bad')}}
+ else if(q('#clr2')){T().runs=[];T().dead=[];save();toast('Executions cleared');paintNav()}});
+const timers=[];
+function syncTimers(){timers.splice(0).forEach(clearInterval);if(!S.me)return;T().wfs.forEach(w=>{const t=w.nodes.find(x=>x.type==='trigger');if(w.active&&t&&t.data.kind==='schedule'&&+t.data.everySec>=5)timers.push(setInterval(()=>{let i={};try{i=JSON.parse(w.input||'{}')}catch(e){}exec(w,i,false).then(()=>{['dash','ana','runs'].includes(view)?paint():paintNav()})},t.data.everySec*1000))})}
+document.addEventListener('dblclick',e=>{const b=e.target.closest('.node b');if(!b)return;const n=wf().nodes.find(x=>x.id===b.parentNode.dataset.id),i=document.createElement('input');i.value=n.name;i.style.cssText='height:20px;padding:0 4px;font-weight:700';b.replaceWith(i);i.focus();i.select();const ok=()=>{n.name=i.value.trim()||n.name;save();designer()};i.onblur=ok;i.onkeydown=ev=>{if(ev.key==='Enter')i.blur();if(ev.key==='Escape'){i.onblur=null;designer()}};i.onpointerdown=ev=>ev.stopPropagation()});
+document.addEventListener('keydown',e=>{if(view==='des'&&sel&&!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)&&(e.key==='Delete'||e.key==='Backspace')){const w=wf();w.nodes=w.nodes.filter(n=>n.id!==sel);w.edges=w.edges.filter(x=>x.from!==sel&&x.to!==sel);sel=null;save();designer()}});
+(async()=>{S.users=S.users||{};
+ S.theme=S.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.theme=S.theme;save();S.me&&S.users[S.me]?enter():showLand()})();
+</script></body></html>
